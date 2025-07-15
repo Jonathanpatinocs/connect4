@@ -1,3 +1,36 @@
+:root {
+    /* Main Colors */
+    --black: #000000;
+    --purpleDark: #5C2DD5;
+    --purpleLight: #7945FF;
+    --Pink: #FD6687;
+    --yellow: #FFCE67;
+    --white: #FFFFFF;
+}
+@font-face {
+    font-family: myFontMedium;
+    src: url("./assets/fonts/static/SpaceGrotesk-Medium.ttf")
+}
+@font-face {
+    font-family: myFontBold;
+    src: url("./assets/fonts/static/SpaceGrotesk-Bold.ttf");
+}
+
 body {
+    font-family: "myFontMedium", serif;
+}
+#board {
+    position: relative;
     
+    width: fit-content;
+}
+#board-layer-black-large {
+    display: block;
+}
+#board-layer-white-large {
+    position: absolute;
+    top: 0;
+    
+    
+
 }
