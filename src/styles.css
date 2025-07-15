@@ -66,6 +66,7 @@ body {
     position: relative;   
     display: flex;
     justify-content: center;
+    
 }
 #board-layer-black-large {
     display: block;
@@ -76,10 +77,29 @@ body {
     top: 0;
 }
 #turn-background-red {
-    position: absolute;
-    top: 540px;
+    position:relative;
+    bottom: 60px;
+    
 }
-
+#player-turn-container {
+    position: relative;
+    display: flex;
+    height: fit-content;
+}
+#middle-container h3 {
+    position: absolute;
+    top: 680px;
+    margin: 0;
+}
+#middle-container p {
+    position: absolute;
+    top: 710px;
+    font-size: 50px;
+    margin: 0;
+}
+#player-turn-container p {
+    position: absolute;
+}
 #left-container {
     display: flex;
     justify-content: center;
