@@ -39,7 +39,7 @@ const displayPvp = () => {
     menuButton.textContent = "MENU"
 
     menuButton.addEventListener('click' ,()=> {
-        //////////////////////////////
+        //////////////////////////////                                                  ------ Need function
     })
 
     const logo = document.createElement('img');
@@ -50,20 +50,38 @@ const displayPvp = () => {
     restartButton.textContent = "RESTART";
 
     restartButton.addEventListener('click', ()=> {
-        ////////////////////////////
+        ////////////////////////////                                                    ---- Neeed function
     })
 
     middleHeader.append(menuButton, logo, restartButton);
 
     const boardDiv = document.createElement('div');
     boardDiv.id = "board";
+    const boardlayout = document.createElement('div');
+    boardlayout.id = "board-layout";
+    for(let i = 0; i < 6; i++) {
+        const row = document.createElement('div');
+        for(let j = 0; j < 7; j++) {
+            const column = document.createElement('div');
+            if(i == 0) {
+                column.className = 'row-1';
+                column.addEventListener('click', ()=> {
+                    ////////////////////////////////                                      ------ Need Function
+                })
+            }
+            row.append(column);
+        }
+        
+        boardlayout.append(row);
+    }
+
     const boardLayerBlack = document.createElement('img');
     boardLayerBlack.src = boardLayerBlackImg;
     boardLayerBlack.id = "board-layer-black-large";
     const boardLayerWhite = document.createElement('img');
     boardLayerWhite.src = boardLayerWhiteImg;
     boardLayerWhite.id = "board-layer-white-large";
-    boardDiv.append(boardLayerBlack, boardLayerWhite);
+    boardDiv.append(boardLayerBlack, boardLayerWhite, boardlayout);
 
     const playerTurnContainer = document.createElement('div');
     playerTurnContainer.id = "player-turn-container";
