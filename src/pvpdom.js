@@ -4,6 +4,7 @@ import boardLayerBlackImg from "./assets/images/board-layer-black-large.svg"
 import boardLayerWhiteImg from "./assets/images/board-layer-white-large.svg"
 import playerturnRed from "./assets/images/turn-background-red.svg"
 import player2img from "./assets/images/player-two.svg"
+import game from "./game";
 
 const displayPvp = () => {
     const container = document.getElementById('container');
@@ -59,20 +60,27 @@ const displayPvp = () => {
     boardDiv.id = "board";
     const boardlayout = document.createElement('div');
     boardlayout.id = "board-layout";
-    for(let i = 0; i < 6; i++) {
-        const row = document.createElement('div');
-        for(let j = 0; j < 7; j++) {
-            const column = document.createElement('div');
-            if(i == 0) {
-                column.className = 'row-1';
-                column.addEventListener('click', ()=> {
-                    ////////////////////////////////                                      ------ Need Function
+    for(let row = 0; row < 6; row++) {
+        const rowDom = document.createElement('div');
+        for(let col = 0; col < 7; col++) {
+            const place = document.createElement('div');
+            if(row == 0) {
+                place.className = 'row-1';
+                place.classList.add(`col-${col + 1}`);
+                place.addEventListener('click', ()=> {
+                    dropDisc(col);
                 })
             }
-            row.append(column);
+            if(row > 0) {
+                place.className =`row-${row + 1}`
+                place.classList.add(`col-${col + 1}`);
+            }
+            place.id = `${row + 1}-${col + 1}`
+            
+            rowDom.append(place);
         }
         
-        boardlayout.append(row);
+        boardlayout.append(rowDom);
     }
 
     const boardLayerBlack = document.createElement('img');
@@ -122,7 +130,30 @@ const displayPvp = () => {
 
 }
 
-
+function dropDisc(col) {
+    game.dropDisc(col);
+    const column = document.querySelectorAll(`.col-${col + 1}`);
+    console.log(column);
+    console.log(column[0])
+    let found = false;
+    for(let i = 0; i < column.length; i++) {
+        if (!found) {
+            if (!found){
+                if (i == 5 ) { // no discs in a column case
+                    column[i].classList.add('taken');
+                    
+                    found = true;
+                }
+                else if (!column[i].classList.contains('taken')) {   // if next spot is unavailable, drop disc at the current spot
+                    if(column[i + 1].classList.contains('taken')) {   
+                        column[i].classList.add('taken');
+                        found = true;
+                    }
+                }  
+            }
+        }
+    }
+}
 
 
 export default(displayPvp)

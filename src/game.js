@@ -233,22 +233,7 @@ class Game {
 
     
     play() {
-        console.log(player1, player2);
-        console.log(this.players[this.currentPlayer]);
-        this.switchPlayer();
-        console.log(this.players[this.currentPlayer]);
-        this.dropDisc(0)
-        this.dropDisc(1)
-        this.dropDisc(1)
-        this.dropDisc(2)
-        this.dropDisc(2)
-        this.dropDisc(3)
-        this.dropDisc(2)
-        this.dropDisc(3)
-        this.dropDisc(3)
-        this.dropDisc(4)
         
-         
     }
 }
 const player1 = new Player("Player 1", 1);

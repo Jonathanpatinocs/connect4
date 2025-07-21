@@ -91,13 +91,18 @@ body {
 
 }
 .row-1:hover {
-background-image: url("./assets/images/counter-red-large.svg");
-background-repeat: no-repeat;
-background-size: cover;
-background-position: center;
-
+    background-image: url("./assets/images/counter-red-large.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 
 }
+.taken {
+    background-image: url("./assets/images/counter-red-large.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    }
 
 #board-layer-black-large {
     display: block;
