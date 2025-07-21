@@ -66,6 +66,7 @@ const displayPvp = () => {
             const place = document.createElement('div');
             if(row == 0) {
                 place.className = 'row-1';
+                place.classList.add('red');
                 place.classList.add(`col-${col + 1}`);
                 place.addEventListener('click', ()=> {
                     dropDisc(col);
@@ -75,7 +76,6 @@ const displayPvp = () => {
                 place.className =`row-${row + 1}`
                 place.classList.add(`col-${col + 1}`);
             }
-            place.id = `${row + 1}-${col + 1}`
             
             rowDom.append(place);
         }
@@ -130,29 +130,43 @@ const displayPvp = () => {
 
 }
 
-function dropDisc(col) {
-    game.dropDisc(col);
+function dropDisc(col) { // Drops dics in board using class names
+    
     const column = document.querySelectorAll(`.col-${col + 1}`);
-    console.log(column);
-    console.log(column[0])
+    const firstRow = document.querySelectorAll('.row-1');
+    let player = game.currentPlayer;
     let found = false;
     for(let i = 0; i < column.length; i++) {
         if (!found) {
             if (!found){
                 if (i == 5 ) { // no discs in a column case
-                    column[i].classList.add('taken');
+                    column[i].classList.add(`taken`);
+                    column[i].classList.add(`player${player}`);
                     
                     found = true;
                 }
                 else if (!column[i].classList.contains('taken')) {   // if next spot is unavailable, drop disc at the current spot
                     if(column[i + 1].classList.contains('taken')) {   
                         column[i].classList.add('taken');
+                        column[i].classList.add(`player${player}`);
                         found = true;
                     }
                 }  
             }
         }
     }
+    game.dropDisc(col);
+    firstRow.forEach(element => {
+        if(element.classList.contains('red')){
+            element.classList.remove('red');
+            element.classList.add('yellow');
+        }
+        else {
+            element.classList.remove('yellow');
+            element.classList.add('red');
+        }
+        
+    });
 }
 
 

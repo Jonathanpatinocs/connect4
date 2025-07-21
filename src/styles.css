@@ -90,19 +90,31 @@ body {
     width: 70px;
 
 }
-.row-1:hover {
+.row-1.red:hover {
     background-image: url("./assets/images/counter-red-large.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.row-1.yellow:hover {
+    background-image: url("./assets/images/counter-yellow-large.svg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
 
 }
-.taken {
+.player0 {
     background-image: url("./assets/images/counter-red-large.svg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    }
+}
+.player1 {
+    background-image: url("./assets/images/counter-yellow-large.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
 
 #board-layer-black-large {
     display: block;
