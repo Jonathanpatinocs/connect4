@@ -133,7 +133,7 @@ const displayPvp = () => {
 function dropDisc(col) { // Drops dics in board using class names
     
     const column = document.querySelectorAll(`.col-${col + 1}`);
-    const firstRow = document.querySelectorAll('.row-1');
+    const firstRow = document.querySelectorAll('.row-1'); // first row is the row players can drop their discs
     let player = game.currentPlayer;
     let found = false;
     for(let i = 0; i < column.length; i++) {
@@ -156,6 +156,9 @@ function dropDisc(col) { // Drops dics in board using class names
         }
     }
     game.dropDisc(col);
+    displayWinner("Player 1");
+    
+
     firstRow.forEach(element => {
         if(element.classList.contains('red')){
             element.classList.remove('red');
@@ -169,5 +172,28 @@ function dropDisc(col) { // Drops dics in board using class names
     });
 }
 
+function displayWinner(winner) {
+    const container = document.getElementById('player-turn-container');
+    const winnerDiv = document.createElement('div');
+    const playertext = document.getElementById('player-turn');
+    const timertext = document.getElementById('player-turn-timer');
+    playertext.innerText = "";
+    timertext.innerText = "";
+    container.innerHTML = "";
+    winnerDiv.id = "winnerDiv";
+    const h3 = document.createElement('h3');
+    const h1 = document.createElement('h1');
+    const button = document.createElement('button');
+
+    h3.id = "winnerDivH3";
+    h1.id = "winnerDivH1";
+    button.id = "winnerDivButton";
+    h3.innerText = winner;
+    h1.innerText = "WINS";
+    button.innerText = "PLAY AGAIN"
+
+    winnerDiv.append(h3,h1,button);
+    container.append(winnerDiv);
+}
 
 export default(displayPvp)

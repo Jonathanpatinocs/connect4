@@ -57,16 +57,21 @@ class Game {
         let token = this.players[this.currentPlayer].token;
         if (this.checkHorizontal(row, col) == true) {
             console.log(`${token} win horizontal`)
+            return true;
         }
         if (this.checkVertical(row, col) == true) {
             console.log(`${token} win vertical`)
+            return true;
         }
         if (this.checkRightDiagonal(row, col) == true) {
             console.log(`${token} win right diagonal`)
+            return true;
         }
         if (this.checkLeftDiagonal(row, col) == true) {
             console.log(`${token} win left diagonal`)
+            return true;
         }
+        return false;
     
         
     }
