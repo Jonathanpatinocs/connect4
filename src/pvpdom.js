@@ -212,6 +212,12 @@ function displayWinner(winner) {
         winnerToken[0].classList.add("winnerToken");
        
     }
+    const winnerTokens = document.querySelectorAll('.winnerToken');
+    winnerTokens.forEach(element => {
+        const div = document.createElement('div');
+        div.className = "winnerTokenCircle";
+        element.append(div);
+    });
 }
 
 export default(displayPvp)

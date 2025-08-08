@@ -269,3 +269,15 @@ body {
     padding-right: 18px;
     padding-left: 18px;
 }
+.winnerToken {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.winnerTokenCircle {
+    width: 50%;
+    height: 50%;
+    border: solid 4px var(--white);
+    border-radius: 50%;
+    
+}
