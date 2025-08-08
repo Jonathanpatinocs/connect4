@@ -226,7 +226,7 @@ body {
 #footer {
     position: absolute;
     min-width: 100%;
-    height: 180px;
+    height: 190px;
     background-color: var(--purpleDark);
     top: 650px;
     border-top-left-radius: 10%;

@@ -155,8 +155,11 @@ function dropDisc(col) { // Drops dics in board using class names
             }
         }
     }
-    game.dropDisc(col);
-    displayWinner("Player 1");
+    
+    if(game.dropDisc(col)) {
+        displayWinner(game.players[game.currentPlayer].name);
+        
+    }
     
 
     firstRow.forEach(element => {
@@ -185,6 +188,7 @@ function displayWinner(winner) {
     const h1 = document.createElement('h1');
     const button = document.createElement('button');
 
+    
     h3.id = "winnerDivH3";
     h1.id = "winnerDivH1";
     button.id = "winnerDivButton";
@@ -194,6 +198,20 @@ function displayWinner(winner) {
 
     winnerDiv.append(h3,h1,button);
     container.append(winnerDiv);
+
+    const footer = document.getElementById('footer'); // footer to change color to winner color
+    if(winner == "Player 1") {
+        footer.style.backgroundColor = "#FD6687"
+    }
+    else {
+        footer.style.backgroundColor = "#FFCE67"
+    }
+
+    for(let i = 0; i < 4; i++) {
+        const winnerToken = document.getElementsByClassName(`row-${game.winnerCoordinates[i][0] + 1} col-${game.winnerCoordinates[i][1] + 1}`);
+        winnerToken[0].classList.add("winnerToken");
+       
+    }
 }
 
 export default(displayPvp)

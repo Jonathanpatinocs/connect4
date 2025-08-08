@@ -18,6 +18,7 @@ class Game {
         this.board = this.createBoard();
         this.players = [player1, player2]; // Array to keeps track of turn
         this.currentPlayer = 0;
+        this.winnerCoordinates = [];
     }
 
     createBoard() { //  returns 6x7 game board , 0 = empty, 1 = Red player, 2 = Yellow Player
@@ -38,12 +39,18 @@ class Game {
                 if (i == 5 ) { // no discs in a column case
                     this.board[i][col] = token;
                     this.checkWin(i, col);
+                    if(this.checkWin(i, col)) {
+                        return true;
+                    }
                     found = true;
                 }
                 else if (this.board[i][col] == 0) {   // if next spot is unavailable, drop disc at the current spot
                     if(this.board[i + 1][col] != 0) {   
                         this.board[i][col] = token;
                         this.checkWin(i, col);
+                        if(this.checkWin(i, col)) {
+                            return true;
+                        }
                         found = true;
                     }
                 }  
@@ -81,11 +88,14 @@ class Game {
         let x = 1; // count of tokens horizontally
         let leftBlocked = false;
         let leftOfToken = 0;
+        let coordinates = []; // keep track of board coordinates in case of win
+        coordinates.push([row,col]);
         while(!leftBlocked) { // loops to count left tokens until it hits the edge or hits the opposing players token
             leftOfToken++;
             if (!(col - leftOfToken < 0)) {
                 if(this.board[row][col - leftOfToken] == token) {
                     x++;
+                    coordinates.push([row, col - leftOfToken]);
                 }
                 else {
                     leftBlocked = true;
@@ -102,6 +112,7 @@ class Game {
             if(!(col + rightOfToken > 6)) {
                 if(this.board[row][col + rightOfToken] == token) {
                     x++;
+                    coordinates.push([row, col + rightOfToken]);
                 }
                 else {
                     rightBlocked = true;
@@ -112,9 +123,11 @@ class Game {
             }
             
         }
+        
         if( x >= 4) {
            
-            
+            this.winnerCoordinates = coordinates;
+            console.log(this.winnerCoordinates);
             return true;
         }
        
@@ -123,7 +136,9 @@ class Game {
     checkVertical(row, col) { // 
         let token = this.players[this.currentPlayer].token;
         let x = 1; // count of tokens vertically
-        
+        let coordinates = []; // keep track of coordinates in case of win
+        coordinates.push([row, col]);
+
         let bottomBlocked = false;
         let bottomOfToken = 0;
         while(!bottomBlocked) { // loops to count bottom tokens until it hits the edge or hits the opposing players token
@@ -131,6 +146,7 @@ class Game {
             if (!(row + bottomOfToken > 5)) {
                 if(this.board[row + bottomOfToken][col] == token) {
                     x++;
+                    coordinates.push([row + bottomOfToken, col])
                 }
                 else {
                     bottomBlocked = true;
@@ -141,6 +157,8 @@ class Game {
             }
         }
         if( x >= 4) {
+            this.winnerCoordinates = coordinates;
+            console.log(this.winnerCoordinates);
             return true;
         }
     }
@@ -148,6 +166,9 @@ class Game {
     checkLeftDiagonal(row, col) {
         let token = this.players[this.currentPlayer].token;
         let x = 1; // count of tokens diagonally (left)
+        let coordinates = [];
+        coordinates.push([row, col])
+
         let topLeftBlocked = false;
         let topLeftOfToken = 0;
         while(!topLeftBlocked) { // loops to count top left tokens until it hits the edge or hits the opposing players token
@@ -155,6 +176,7 @@ class Game {
             if (!(row - topLeftOfToken < 0) && !(col - topLeftOfToken < 0)) {
                 if(this.board[row - topLeftOfToken][col - topLeftOfToken] == token) {
                     x++;
+                    coordinates.push([row - topLeftOfToken, col - topLeftOfToken]);
                 }
                 else {
                     topLeftBlocked = true;
@@ -171,6 +193,7 @@ class Game {
             if(!(row + bottomRightOfToken > 5) && !(col + bottomRightOfToken > 6)) {
                 if(this.board[row + bottomRightOfToken][col + bottomRightOfToken] == token) {
                     x++;
+                    coordinates.push([row + bottomRightOfToken, col + bottomRightOfToken]);
                 }
                 else {
                     bottomRightBlocked = true;
@@ -181,6 +204,8 @@ class Game {
             }
         }
         if( x >= 4) {
+            this.winnerCoordinates = coordinates;
+            console.log(this.winnerCoordinates)
             return true;
         }
         
@@ -190,6 +215,9 @@ class Game {
     checkRightDiagonal(row, col) {
         let token = this.players[this.currentPlayer].token;
         let x = 1; // count of tokens diagonally (right)
+        let coordinates = [];
+        coordinates.push([row, col]);
+
         let topRightBlocked = false;
         let topRightOfToken = 0;
         while(!topRightBlocked) { // loops to count top right tokens until it hits the edge or hits the opposing players token
@@ -198,6 +226,7 @@ class Game {
             {
                 if(this.board[row - topRightOfToken][col + topRightOfToken] == token) {
                     x++;
+                    coordinates.push([row - topRightOfToken, col + topRightOfToken])
                 }
                 else {
                     topRightBlocked = true;
@@ -215,6 +244,7 @@ class Game {
             if (!(row + bottomLeftOfToken > 5) && !(col - bottomLeftOfToken < 0 )) { // checks if spot is out of bounds
                 if(this.board[row + bottomLeftOfToken][col - bottomLeftOfToken] == token) {
                     x++;
+                    coordinates.push([row + bottomLeftOfToken, col - bottomLeftOfToken])
                 }
                 else {
                     bottomLeftBlocked = true;
@@ -226,7 +256,8 @@ class Game {
         }
   
         if( x >= 4) {
-            
+            this.winnerCoordinates = coordinates;
+            console.log(this.winnerCoordinates)
             return true;
         }
         
