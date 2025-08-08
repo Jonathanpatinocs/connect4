@@ -1,5 +1,5 @@
 
-class Player {
+export class Player {
     constructor(name, token, ai = false) {
         this.name = name;
         this.token = token;
@@ -13,7 +13,7 @@ class AIPlayer extends Player {
     }
 }
 
-class Game {
+export class Game {
     constructor(player1, player2) {
         this.board = this.createBoard();
         this.players = [player1, player2]; // Array to keeps track of turn
@@ -268,8 +268,17 @@ class Game {
     }
 
     
-    play() {
-        
+    restart() {
+        this.board = this.createBoard();
+    }
+    playAgain() {
+        this.restart();
+        if(this.currentPlayer == 0) {
+            this.currentPlayer++;
+        }
+        else {
+            this.currentPlayer--;
+        }
     }
 }
 const player1 = new Player("Player 1", 1);

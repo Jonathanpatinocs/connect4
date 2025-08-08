@@ -4,7 +4,7 @@ import displayPvp from "./pvpdom"
 
 
 console.log(game.board)
-game.play();
+
 displayPvp();
 
 

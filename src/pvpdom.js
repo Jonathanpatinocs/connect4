@@ -5,6 +5,7 @@ import boardLayerWhiteImg from "./assets/images/board-layer-white-large.svg"
 import playerturnRed from "./assets/images/turn-background-red.svg"
 import player2img from "./assets/images/player-two.svg"
 import game from "./game";
+import { Game, Player} from "./game";
 
 const displayPvp = () => {
     const container = document.getElementById('container');
@@ -51,7 +52,9 @@ const displayPvp = () => {
     restartButton.textContent = "RESTART";
 
     restartButton.addEventListener('click', ()=> {
-        ////////////////////////////                                                    ---- Neeed function
+        container.innerHTML = "";
+        displayPvp();
+        game.restart();
     })
 
     middleHeader.append(menuButton, logo, restartButton);
@@ -66,7 +69,14 @@ const displayPvp = () => {
             const place = document.createElement('div');
             if(row == 0) {
                 place.className = 'row-1';
-                place.classList.add('red');
+                if(game.currentPlayer == 0) {
+                    place.classList.add('red');
+                    console.log(game.currentPlayer)
+                }
+                else{
+                    place.classList.add('yellow');
+                }
+                
                 place.classList.add(`col-${col + 1}`);
                 place.addEventListener('click', ()=> {
                     dropDisc(col);
@@ -196,6 +206,12 @@ function displayWinner(winner) {
     h1.innerText = "WINS";
     button.innerText = "PLAY AGAIN"
 
+    button.addEventListener('click', ()=> {
+        const container = document.getElementById('container');
+        container.innerHTML = "";
+        game.playAgain();
+        displayPvp();
+    })
     winnerDiv.append(h3,h1,button);
     container.append(winnerDiv);
 
