@@ -56,8 +56,10 @@ const displayPvp = () => {
         displayPvp();
         game.restart();
     })
-
-    middleHeader.append(menuButton, logo, restartButton);
+    const header = document.createElement('div');
+    header.id  = "header"
+    header.append(menuButton, logo, restartButton);
+    middleHeader.append(header);
 
     const boardDiv = document.createElement('div');
     boardDiv.id = "board";
@@ -114,7 +116,7 @@ const displayPvp = () => {
     playerTurnP.id = "player-turn-timer";
     playerTurnP.innerText = "30s";
 
-    middleContainer.append(middleHeader, boardDiv, playerTurnContainer, playerTurnH3, playerTurnP);
+    middleContainer.append( boardDiv, playerTurnContainer, playerTurnH3, playerTurnP);
     
     /* Right Container  */
 
@@ -136,7 +138,7 @@ const displayPvp = () => {
     rightContainer.append(rightPlayerDiv);
 
 
-    container.append(footer, leftContainer, middleContainer, rightContainer);
+    container.append(footer, middleHeader, leftContainer, middleContainer, rightContainer);
 
 }
 

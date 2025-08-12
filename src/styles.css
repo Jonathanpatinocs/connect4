@@ -54,13 +54,23 @@ body {
     background-color: var(--purpleDark);
 }
 #middle-header {
-    max-width: 632px;
+    grid-column: 2 / 3;
+    
     margin-top: 20px;
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    
     margin-bottom: 25px;
+}
+#middle-header #header {
+    max-width: 632px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    
+    justify-content: space-between;
 }
 #board {
     position: relative;   
@@ -155,6 +165,7 @@ body {
     position: absolute;
 }
 #left-container {
+    grid-row: 2;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -279,5 +290,103 @@ body {
     height: 50%;
     border: solid 4px var(--white);
     border-radius: 50%;
+    
+}
+
+@media only screen and (max-width: 1024px) {
+    #container {
+        grid-template-rows: .3fr .3fr 2fr;
+        grid-template-columns: 1fr 1fr;
+        height: 100vh;
+    }
+    #middle-header {
+        grid-row: 1 / 2;
+        grid-column: 1 / -1;
+    }
+    #left-container {
+        grid-row: 2 / 3;
+        grid-column: 1 / 2;
+        height: 220px;
+    }
+    #middle-container {
+        grid-row: 3 / 4;
+        grid-column: 1 / -1;
+    }
+    #right-container {
+        grid-row: 2 / 3;
+        grid-column: 2 / 3;
+        height: 220px;
+    }
+    #left-player { 
+        width: 400px;
+        
+        
+    }
+    #left-player div {
+        border-radius: 15px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 45px;
+        min-width: 300px;
+        width: 60%;
+        height: 150px;
+        margin-left: auto;
+        margin-right: 10px
+    }
+    #left-player > div > h3 {
+        padding: 0;
+        margin: 0;
+        padding-left: 5px
+    }
+    #left-player img {
+        left: 15%;
+        top: 110px;
+        
+        position:relative;
+    }
+    
+    #right-player { 
+        width: 400px;
+        
+    }
+    #right-player div {
+        border-radius: 15px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 45px;
+        min-width: 300px;
+        width: 60%;
+        height: 150px;
+        margin-right: auto;
+        margin-left: 10px
+    }
+    #right-player > div > h3 {
+        padding: 0;
+        margin: 0;
+        padding-left: 5px
+    }
+    #right-player img {
+        left: 70%;
+        top: 110px;
+        
+        position:relative;
+    }
+
+    #footer {
+        top: 880px
+    }
+    #middle-container h3 {
+        top: 900px;
+    }
+    #middle-container p {
+        top: 930px
+    }
+    #winnerDiv h3 {
+        position: absolute;
+        top: -40px;
+        
+    }
     
 }
