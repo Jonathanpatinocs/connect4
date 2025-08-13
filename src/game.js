@@ -4,6 +4,7 @@ export class Player {
         this.name = name;
         this.token = token;
         this.ai = ai;
+        this.score = 0;
     } 
 }
 class AIPlayer extends Player {
@@ -19,6 +20,7 @@ export class Game {
         this.players = [player1, player2]; // Array to keeps track of turn
         this.currentPlayer = 0;
         this.winnerCoordinates = [];
+        
     }
 
     createBoard() { //  returns 6x7 game board , 0 = empty, 1 = Red player, 2 = Yellow Player
@@ -64,19 +66,26 @@ export class Game {
         let token = this.players[this.currentPlayer].token;
         if (this.checkHorizontal(row, col) == true) {
             console.log(`${token} win horizontal`)
+            this.players[this.currentPlayer].score++;
             return true;
         }
         if (this.checkVertical(row, col) == true) {
             console.log(`${token} win vertical`)
+            this.players[this.currentPlayer].score++;
             return true;
+            
         }
         if (this.checkRightDiagonal(row, col) == true) {
             console.log(`${token} win right diagonal`)
+            this.players[this.currentPlayer].score++;
             return true;
+            
         }
         if (this.checkLeftDiagonal(row, col) == true) {
             console.log(`${token} win left diagonal`)
+            this.players[this.currentPlayer].score++;
             return true;
+            
         }
         return false;
     
@@ -281,10 +290,8 @@ export class Game {
         }
     }
 }
-const player1 = new Player("Player 1", 1);
-const player2 = new Player("Player 2", 2);
-const game = new Game(player1, player2);
 
-export default game;
+
+
 
 

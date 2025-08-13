@@ -1,0 +1,38 @@
+import logoimg from  "./assets/images/logo.svg"
+import displayPvp from "./pvpdom";
+
+const displayMainMenu = () => {
+    const container = document.getElementById('container');
+    container.classList.add("menu");
+    const mainDiv = document.createElement('div');
+    mainDiv.id = "mainMenuContainer";
+    const mainMenu = document.createElement('div');
+    mainMenu.id = "mainMenu";
+    const logo = document.createElement('img');
+    logo.src = logoimg;
+    logo.id = "menuLogo";
+    const pvpDiv = document.createElement('button');
+    pvpDiv.id = "pvpDiv";
+    pvpDiv.innerText = "Player vs Player";
+    const pvcDiv = document.createElement('button');
+    pvcDiv.id = "pvcDiv";
+    pvcDiv.innerText = "Player vs CPU (Normal)";
+    const pvcHardDiv = document.createElement('button');
+    pvcHardDiv.id = "pvcHardDiv";
+    pvcHardDiv.innerText = "Player vs CPU (Hard)";
+    const gameRules = document.createElement('button');
+    gameRules.id = "gameRules";
+    gameRules.innerText = "Game Rules";
+
+
+    pvpDiv.addEventListener('click', ()=> {
+        displayPvp();
+    })
+   
+    mainMenu.append(logo, pvpDiv, pvcDiv, pvcHardDiv, gameRules);
+    mainDiv.append(mainMenu);
+    container.append(mainDiv);
+    
+}
+
+export default displayMainMenu;

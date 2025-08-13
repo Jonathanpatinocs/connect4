@@ -4,11 +4,20 @@ import boardLayerBlackImg from "./assets/images/board-layer-black-large.svg"
 import boardLayerWhiteImg from "./assets/images/board-layer-white-large.svg"
 import playerturnRed from "./assets/images/turn-background-red.svg"
 import player2img from "./assets/images/player-two.svg"
-import game from "./game";
+
 import { Game, Player} from "./game";
 
+    const player1 = new Player("Player 1", 1);
+    const player2 = new Player("Player 2", 2);
+    const game = new Game(player1, player2);
+    
+
 const displayPvp = () => {
+    
+
     const container = document.getElementById('container');
+    container.innerHTML = "";
+    container.classList.remove('menu');
     const footer = document.createElement('div');
     footer.id = "footer";
 
@@ -23,7 +32,7 @@ const displayPvp = () => {
     const leftPlayerTextDivH3 = document.createElement('h3');
     leftPlayerTextDivH3.textContent = "PLAYER 1";
     const leftPlayerTextDivP = document.createElement('p');
-    leftPlayerTextDivP.textContent = "30";
+    leftPlayerTextDivP.textContent = game.players[0].score;
     leftPlayerTextDivP.id = "player1-score";
 
     leftPlayerTextDiv.append(leftPlayerTextDivH3, leftPlayerTextDivP);
@@ -130,7 +139,7 @@ const displayPvp = () => {
     const rightPlayerTextDivH3 = document.createElement('h3');
     rightPlayerTextDivH3.textContent = "PLAYER 2";
     const rightPlayerTextDivP = document.createElement('p');
-    rightPlayerTextDivP.textContent = "30";
+    rightPlayerTextDivP.textContent = game.players[1].score;
     rightPlayerTextDivP.id = "player1-score";
 
     rightPlayerTextDiv.append(rightPlayerTextDivH3, rightPlayerTextDivP);
@@ -169,6 +178,7 @@ function dropDisc(col) { // Drops dics in board using class names
     }
     
     if(game.dropDisc(col)) {
+        console.log(game.players[game.currentPlayer].name);
         displayWinner(game.players[game.currentPlayer].name);
         
     }

@@ -375,7 +375,8 @@ body {
     }
 
     #footer {
-        top: 880px
+        top: 880px;
+
     }
     #middle-container h3 {
         top: 900px;
@@ -389,4 +390,61 @@ body {
         
     }
     
+}
+
+
+/* ----------------- MAIN MENU -----------------*/
+
+#mainMenuContainer {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#mainMenu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: solid var(--black) 2px;
+    border-radius: 20px;
+    width: 50%;
+    height: 330px;
+    min-width: 500px;
+    
+    background-color: var(--purpleLight);
+
+}
+
+#menuLogo {
+    margin-top: 5dvb;
+    height: 50px;
+}
+#mainMenu button {
+    font-family: myFontBold;
+    font-size: 20px;
+    padding: 10px;
+    margin-top: 10px;
+    width: 80%;
+    height: 45px;
+    border-radius: 20px;
+    border-bottom-width: 4px;
+    
+}
+.menu {
+    background-color: var(--purpleDark);
+}
+
+#pvpDiv {
+    background-color: var(--yellow);
+}
+#pvcDiv {
+    background-color: var(--Pink);
+}
+#pvcHardDiv {
+    background-color: var(--yellow);
+}
+#gameRules {
+    background-color: var(--white);
 }
