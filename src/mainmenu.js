@@ -3,6 +3,7 @@ import displayPvp from "./pvpdom";
 
 const displayMainMenu = () => {
     const container = document.getElementById('container');
+    container.innerHTML = "";
     container.classList.add("menu");
     const mainDiv = document.createElement('div');
     mainDiv.id = "mainMenuContainer";

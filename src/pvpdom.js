@@ -6,6 +6,7 @@ import playerturnRed from "./assets/images/turn-background-red.svg"
 import player2img from "./assets/images/player-two.svg"
 
 import { Game, Player} from "./game";
+import displayMainMenu from "./mainmenu";
 
     const player1 = new Player("Player 1", 1);
     const player2 = new Player("Player 2", 2);
@@ -39,7 +40,7 @@ const displayPvp = () => {
     leftPlayerDiv.append(leftPlayerDivIMG, leftPlayerTextDiv);
     leftContainer.append(leftPlayerDiv);
 
-    /* Middle Container */
+    /* Middle Container ------------- */
 
     const middleContainer = document.createElement('div');
     middleContainer.id = "middle-container";
@@ -47,11 +48,44 @@ const displayPvp = () => {
     middleHeader.id = "middle-header";
     const menuButton = document.createElement('button');
     menuButton.id = "menu-button";
-    menuButton.textContent = "MENU"
+    menuButton.innerText = "MENU"
+
+    /* Menu Modal --------------- */ 
+    const menuModal = document.createElement('dialog');
+    menuModal.id = "pvpMenuModal";
+    const menuModalH1 = document.createElement('h1');
+    menuModalH1.innerText = "PAUSE";
+    const menuModalContinue = document.createElement('button');
+    menuModalContinue.id = "pvpMenuContinue";
+    menuModalContinue.innerText = "CONTINUE GAME";
+    menuModalContinue.addEventListener('click', ()=> {
+        menuModal.classList.remove('menuModalShow')
+        menuModal.close();
+    })
+    const menuModalRestart = document.createElement('button');
+    menuModalRestart.id = "pvpMenuRestart";
+    menuModalRestart.innerText = "RESTART";
+    menuModalRestart.addEventListener('click', ()=> {
+        container.innerHTML = "";
+        player1.score = 0;
+        player2.score = 0;
+        displayPvp();
+        game.restart();
+    })
+    const menuModalQuit = document.createElement('button');
+    menuModalQuit.id = "pvpMenuQuit";
+    menuModalQuit.innerText = "QUIT"
+    menuModalQuit.addEventListener('click', ()=> {
+        displayMainMenu();
+    })
 
     menuButton.addEventListener('click' ,()=> {
-        //////////////////////////////                                                  ------ Need function
+        menuModal.classList.add('menuModalShow')
+        menuModal.showModal();
     })
+
+    menuModal.append(menuModalH1, menuModalContinue, menuModalRestart, menuModalQuit);
+                            
 
     const logo = document.createElement('img');
     logo.src = logoimg;
@@ -149,7 +183,7 @@ const displayPvp = () => {
     rightContainer.append(rightPlayerDiv);
 
 
-    container.append(footer, middleHeader, leftContainer, middleContainer, rightContainer);
+    container.append(footer, middleHeader, leftContainer, middleContainer, rightContainer, menuModal);
 
 }
 
