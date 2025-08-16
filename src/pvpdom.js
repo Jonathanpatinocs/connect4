@@ -62,6 +62,8 @@ const displayPvp = () => {
 
     restartButton.addEventListener('click', ()=> {
         container.innerHTML = "";
+        player1.score = 0;
+        player2.score = 0;
         displayPvp();
         game.restart();
     })
@@ -178,6 +180,10 @@ function dropDisc(col) { // Drops dics in board using class names
     }
     
     if(game.dropDisc(col)) {
+        const firstRow = document.querySelectorAll('.row-1');
+        firstRow.forEach(div => {
+            div.classList.remove('row-1');
+        })
         console.log(game.players[game.currentPlayer].name);
         displayWinner(game.players[game.currentPlayer].name);
         
