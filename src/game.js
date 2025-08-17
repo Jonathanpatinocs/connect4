@@ -25,7 +25,7 @@ export class AIPlayer extends Player {  // "Normal" Difficuly AI Player
             }
            }
         }
-        for(let col = 0; col < 7; col++) { // Checks if opponent has winning move and blocks it.
+        for(let col = 0; col < 6; col++) { // Checks if opponent has winning move and blocks it.
             if(this.isValidMove(game.board, col)) {
                 console.log(game.simDropDisc(col, opponentToken));
              if(game.simDropDisc(col, opponentToken) ) {
@@ -37,7 +37,7 @@ export class AIPlayer extends Player {  // "Normal" Difficuly AI Player
          // If there is no winning or blocking moves, Choose a random valid move.
 
          const validColumns = []; // push valid columns to array and choose a random one.
-         for (let col = 0; col < 7; col++) {
+         for (let col = 0; col < 6; col++) {
             if (this.isValidMove(game.board, col)) {
                 validColumns.push(col);
             }

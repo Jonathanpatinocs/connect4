@@ -186,6 +186,16 @@ const displayPvp = (game) => {
 
     container.append(footer, middleHeader, leftContainer, middleContainer, rightContainer, menuModal);
 
+    if(game.currentPlayer == 1) { // Initial AI move if AI goes first
+        if (game.players[1].ai == true) {
+            setTimeout(() => { console.log("AI turn")}, 1000); // wait 1 second
+            let col = game.players[1].chooseMove(game);;
+            if(!game.gameOver) {
+                dropDisc(col, game); 
+            }
+              
+        }
+    }
 }
 
 function dropDisc(col, game) { // Drops dics in board using class names
@@ -235,11 +245,11 @@ function dropDisc(col, game) { // Drops dics in board using class names
             element.classList.remove('yellow');
             element.classList.add('red');
         }
-        if(game.currentPlayer == 1) {
+        if(game.currentPlayer == 1) { // AI drops disc after player makes their move.
             if (game.players[1].ai == true) {
-                let col = game.players[1].chooseMove(game);
-                console.log("hey");
-                if(!game.gameOver) {
+                let col = game.players[1].chooseMove(game);;
+                if(!game.gameOver) { // AI stops making moves when game is over
+                    
                     dropDisc(col, game); 
                 }
                   
