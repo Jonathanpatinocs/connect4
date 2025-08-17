@@ -7,7 +7,51 @@ export class Player {
         this.score = 0;
     } 
 }
-export class AIPlayer extends Player {
+export class AIPlayer extends Player {  // "Normal" Difficuly AI Player
+    constructor(name, token, difficulty = "normal") {
+        super(name, token, true);
+        this.difficulty  = difficulty;
+    }
+
+    chooseMove(game) { 
+        const opponentToken = 1;
+        const tempBoard = game.board;
+
+        for(let col = 0; col < 6; col++) { // Checks for any winning moves
+           if(this.isValidMove(game.board, col)) {
+            if(game.simDropDisc(col, this.token)) {
+                return col;
+            }
+           }
+        }
+        for(let col = 0; col < 6; col++) { // Checks if opponent has winning move and blocks it.
+            if(this.isValidMove(game.board, col)) {
+             if(game.simDropDisc(col, opponentToken)) {
+                 return col;
+             }
+            }
+         }
+         // If there is no winning or blocking moves, Choose a random valid move.
+
+         const validColumns = []; // push valid columns to array and choose a random one.
+         for (let col = 0; col < 6; col++) {
+            if (this.isValidMove(game.board, col)) {
+                validColumns.push(col);
+            }
+        }
+        
+        return (validColumns[Math.floor(Math.random() * validColumns.length)]);
+  
+    }
+    isValidMove(board, col) {
+        if(board[0][col] === 0) {
+            return true;
+        }
+        return false;
+    }
+}
+
+export class AIPlayerHard extends Player { // "Hard" Difficuly AI Player
     constructor(name, token, difficulty = "hard") {
         super(name, token, true);
         this.difficulty  = difficulty;
@@ -20,7 +64,7 @@ export class Game {
         this.players = [player1, player2]; // Array to keeps track of turn
         this.currentPlayer = 0;
         this.winnerCoordinates = [];
-        
+        this.gameOver = false;
     }
 
     createBoard() { //  returns 6x7 game board , 0 = empty, 1 = Red player, 2 = Yellow Player
@@ -32,6 +76,8 @@ export class Game {
     }
 
     dropDisc(col) {
+       
+            
         let token = this.players[this.currentPlayer].token;
         
         
@@ -60,6 +106,41 @@ export class Game {
         }
         console.log(this.board);
         this.switchPlayer();
+    
+    }
+    simDropDisc(col, token) { // simulate drop disc for ai opponents
+        
+        
+        let found = false;
+        for(let i = 0; i < 6; i++) { // drops the disc at the next available spot in the column
+            if (!found){
+                if (i == 5 ) { // no discs in a column case
+                    this.board[i][col] = token;
+                    this.checkWin(i, col);
+
+                    if(this.checkWin(i, col)) {
+                        this.board[i][col] = 0;
+                        return true;
+                    }
+                    this.board[i][col] = 0;
+                    found = true;
+                }
+                else if (this.board[i][col] == 0) {   // if next spot is unavailable, drop disc at the current spot
+                    if(this.board[i + 1][col] != 0) {   
+                        this.board[i][col] = token;
+                        this.checkWin(i, col);
+                        if(this.checkWin(i, col)) {
+                            this.board[i][col] = 0;
+                            return true;
+                        }
+                        this.board[i][col] = 0;
+                        found = true;
+                    }
+                }  
+            }
+        }
+        return false;
+        
     }
     
     checkWin(row, col) { // checks win by looking at the surrounding tokens of the last placed token
@@ -279,9 +360,11 @@ export class Game {
     
     restart() {
         this.board = this.createBoard();
+        this.gameOver = false;;
     }
     playAgain() {
         this.restart();
+        
         if(this.currentPlayer == 0) {
             this.currentPlayer++;
         }

@@ -14,7 +14,7 @@ import displayMainMenu from "./mainmenu";
 
 
 const displayPvp = (game) => {
-    
+
 
     const container = document.getElementById('container');
     container.innerHTML = "";
@@ -31,7 +31,7 @@ const displayPvp = (game) => {
     leftPlayerDivIMG.src = player1img;
     const leftPlayerTextDiv = document.createElement('div');
     const leftPlayerTextDivH3 = document.createElement('h3');
-    leftPlayerTextDivH3.textContent = "PLAYER 1";
+    leftPlayerTextDivH3.textContent = game.players[0].name;
     const leftPlayerTextDivP = document.createElement('p');
     leftPlayerTextDivP.textContent = game.players[0].score;
     leftPlayerTextDivP.id = "player1-score";
@@ -67,8 +67,9 @@ const displayPvp = (game) => {
     menuModalRestart.innerText = "RESTART";
     menuModalRestart.addEventListener('click', ()=> {
         container.innerHTML = "";
-        game.players[0] = 0;
+        game.players[0].score = 0;
         game.players[1].score = 0;
+        
         displayPvp(game);
         game.restart();
     })
@@ -173,7 +174,7 @@ const displayPvp = (game) => {
     rightPlayerDivIMG.src = player2img;
     const rightPlayerTextDiv = document.createElement('div');
     const rightPlayerTextDivH3 = document.createElement('h3');
-    rightPlayerTextDivH3.textContent = "PLAYER 2";
+    rightPlayerTextDivH3.textContent = game.players[1].name;
     const rightPlayerTextDivP = document.createElement('p');
     rightPlayerTextDivP.textContent = game.players[1].score;
     rightPlayerTextDivP.id = "player1-score";
@@ -218,9 +219,10 @@ function dropDisc(col, game) { // Drops dics in board using class names
         firstRow.forEach(div => {
             div.classList.remove('row-1');
         })
+
         console.log(game.players[game.currentPlayer].name);
+        game.gameOver = true;
         displayWinner(game.players[game.currentPlayer].name, game);
-        
     }
     
 
@@ -233,6 +235,17 @@ function dropDisc(col, game) { // Drops dics in board using class names
             element.classList.remove('yellow');
             element.classList.add('red');
         }
+        if(game.currentPlayer == 1) {
+            if (game.players[1].ai == true) {
+                let col = game.players[1].chooseMove(game);
+                console.log("hey");
+                if(!game.gameOver) {
+                    dropDisc(col, game); 
+                }
+                  
+            }
+        }
+        
         
     });
 }
@@ -262,7 +275,7 @@ function displayWinner(winner, game) {
         const container = document.getElementById('container');
         container.innerHTML = "";
         game.playAgain();
-        displayPvp();
+        displayPvp(game);
     })
     winnerDiv.append(h3,h1,button);
     container.append(winnerDiv);
