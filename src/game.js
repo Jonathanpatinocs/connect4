@@ -14,19 +14,22 @@ export class AIPlayer extends Player {  // "Normal" Difficuly AI Player
     }
 
     chooseMove(game) { 
-        const opponentToken = 1;
+        const opponentToken = game.players[0].token;
         const tempBoard = game.board;
 
         for(let col = 0; col < 6; col++) { // Checks for any winning moves
            if(this.isValidMove(game.board, col)) {
             if(game.simDropDisc(col, this.token)) {
+                console.log("win");
                 return col;
             }
            }
         }
-        for(let col = 0; col < 6; col++) { // Checks if opponent has winning move and blocks it.
+        for(let col = 0; col < 7; col++) { // Checks if opponent has winning move and blocks it.
             if(this.isValidMove(game.board, col)) {
-             if(game.simDropDisc(col, opponentToken)) {
+                console.log(game.simDropDisc(col, opponentToken));
+             if(game.simDropDisc(col, opponentToken) ) {
+                console.log("block");
                  return col;
              }
             }
@@ -34,7 +37,7 @@ export class AIPlayer extends Player {  // "Normal" Difficuly AI Player
          // If there is no winning or blocking moves, Choose a random valid move.
 
          const validColumns = []; // push valid columns to array and choose a random one.
-         for (let col = 0; col < 6; col++) {
+         for (let col = 0; col < 7; col++) {
             if (this.isValidMove(game.board, col)) {
                 validColumns.push(col);
             }
@@ -86,8 +89,9 @@ export class Game {
             if (!found){
                 if (i == 5 ) { // no discs in a column case
                     this.board[i][col] = token;
-                    this.checkWin(i, col);
-                    if(this.checkWin(i, col)) {
+                    this.checkWin(i, col, token);
+                    if(this.checkWin(i, col, token)) {
+                        this.players[this.currentPlayer].score++;
                         return true;
                     }
                     found = true;
@@ -95,8 +99,9 @@ export class Game {
                 else if (this.board[i][col] == 0) {   // if next spot is unavailable, drop disc at the current spot
                     if(this.board[i + 1][col] != 0) {   
                         this.board[i][col] = token;
-                        this.checkWin(i, col);
-                        if(this.checkWin(i, col)) {
+                        this.checkWin(i, col, token);
+                        if(this.checkWin(i, col, token)) {
+                            this.players[this.currentPlayer].score++;
                             return true;
                         }
                         found = true;
@@ -116,9 +121,9 @@ export class Game {
             if (!found){
                 if (i == 5 ) { // no discs in a column case
                     this.board[i][col] = token;
-                    this.checkWin(i, col);
+                    this.checkWin(i, col, token);
 
-                    if(this.checkWin(i, col)) {
+                    if(this.checkWin(i, col, token)) {
                         this.board[i][col] = 0;
                         return true;
                     }
@@ -128,8 +133,8 @@ export class Game {
                 else if (this.board[i][col] == 0) {   // if next spot is unavailable, drop disc at the current spot
                     if(this.board[i + 1][col] != 0) {   
                         this.board[i][col] = token;
-                        this.checkWin(i, col);
-                        if(this.checkWin(i, col)) {
+                        this.checkWin(i, col, token);
+                        if(this.checkWin(i, col, token)) {
                             this.board[i][col] = 0;
                             return true;
                         }
@@ -143,28 +148,28 @@ export class Game {
         
     }
     
-    checkWin(row, col) { // checks win by looking at the surrounding tokens of the last placed token
-        let token = this.players[this.currentPlayer].token;
-        if (this.checkHorizontal(row, col) == true) {
+    checkWin(row, col, token) { // checks win by looking at the surrounding tokens of the last placed token
+        
+        if (this.checkHorizontal(row, col, token) == true) {
             console.log(`${token} win horizontal`)
-            this.players[this.currentPlayer].score++;
+          //  this.players[this.currentPlayer].score++;
             return true;
         }
-        if (this.checkVertical(row, col) == true) {
+        if (this.checkVertical(row, col, token) == true) {
             console.log(`${token} win vertical`)
-            this.players[this.currentPlayer].score++;
+          //  this.players[this.currentPlayer].score++;
             return true;
             
         }
-        if (this.checkRightDiagonal(row, col) == true) {
+        if (this.checkRightDiagonal(row, col, token) == true) {
             console.log(`${token} win right diagonal`)
-            this.players[this.currentPlayer].score++;
+         //   this.players[this.currentPlayer].score++;
             return true;
             
         }
-        if (this.checkLeftDiagonal(row, col) == true) {
+        if (this.checkLeftDiagonal(row, col, token) == true) {
             console.log(`${token} win left diagonal`)
-            this.players[this.currentPlayer].score++;
+          //  this.players[this.currentPlayer].score++;
             return true;
             
         }
@@ -173,8 +178,8 @@ export class Game {
         
     }
 
-    checkHorizontal(row, col) {
-        let token = this.players[this.currentPlayer].token;
+    checkHorizontal(row, col, token) {
+        
         let x = 1; // count of tokens horizontally
         let leftBlocked = false;
         let leftOfToken = 0;
@@ -223,8 +228,8 @@ export class Game {
        
     }
 
-    checkVertical(row, col) { // 
-        let token = this.players[this.currentPlayer].token;
+    checkVertical(row, col, token) { // 
+
         let x = 1; // count of tokens vertically
         let coordinates = []; // keep track of coordinates in case of win
         coordinates.push([row, col]);
@@ -253,8 +258,8 @@ export class Game {
         }
     }
 
-    checkLeftDiagonal(row, col) {
-        let token = this.players[this.currentPlayer].token;
+    checkLeftDiagonal(row, col, token) {
+
         let x = 1; // count of tokens diagonally (left)
         let coordinates = [];
         coordinates.push([row, col])
@@ -302,8 +307,8 @@ export class Game {
 
     }
 
-    checkRightDiagonal(row, col) {
-        let token = this.players[this.currentPlayer].token;
+    checkRightDiagonal(row, col, token) {
+
         let x = 1; // count of tokens diagonally (right)
         let coordinates = [];
         coordinates.push([row, col]);
