@@ -8,12 +8,12 @@ import player2img from "./assets/images/player-two.svg"
 import { Game, Player} from "./game";
 import displayMainMenu from "./mainmenu";
 
-    const player1 = new Player("Player 1", 1);
-    const player2 = new Player("Player 2", 2);
-    const game = new Game(player1, player2);
+    
     
 
-const displayPvp = () => {
+
+
+const displayPvp = (game) => {
     
 
     const container = document.getElementById('container');
@@ -67,9 +67,9 @@ const displayPvp = () => {
     menuModalRestart.innerText = "RESTART";
     menuModalRestart.addEventListener('click', ()=> {
         container.innerHTML = "";
-        player1.score = 0;
-        player2.score = 0;
-        displayPvp();
+        game.players[0] = 0;
+        game.players[1].score = 0;
+        displayPvp(game);
         game.restart();
     })
     const menuModalQuit = document.createElement('button');
@@ -96,9 +96,9 @@ const displayPvp = () => {
 
     restartButton.addEventListener('click', ()=> {
         container.innerHTML = "";
-        player1.score = 0;
-        player2.score = 0;
-        displayPvp();
+        game.players[0].score = 0;
+        game.players[1].score = 0;
+        displayPvp(game);
         game.restart();
     })
     const header = document.createElement('div');
@@ -126,7 +126,7 @@ const displayPvp = () => {
                 
                 place.classList.add(`col-${col + 1}`);
                 place.addEventListener('click', ()=> {
-                    dropDisc(col);
+                    dropDisc(col, game);
                 })
             }
             if(row > 0) {
@@ -187,7 +187,7 @@ const displayPvp = () => {
 
 }
 
-function dropDisc(col) { // Drops dics in board using class names
+function dropDisc(col, game) { // Drops dics in board using class names
     
     const column = document.querySelectorAll(`.col-${col + 1}`);
     const firstRow = document.querySelectorAll('.row-1'); // first row is the row players can drop their discs
@@ -219,7 +219,7 @@ function dropDisc(col) { // Drops dics in board using class names
             div.classList.remove('row-1');
         })
         console.log(game.players[game.currentPlayer].name);
-        displayWinner(game.players[game.currentPlayer].name);
+        displayWinner(game.players[game.currentPlayer].name, game);
         
     }
     
@@ -237,7 +237,7 @@ function dropDisc(col) { // Drops dics in board using class names
     });
 }
 
-function displayWinner(winner) {
+function displayWinner(winner, game) {
     const container = document.getElementById('player-turn-container');
     const winnerDiv = document.createElement('div');
     const playertext = document.getElementById('player-turn');

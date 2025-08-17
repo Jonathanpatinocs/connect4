@@ -7,7 +7,7 @@ export class Player {
         this.score = 0;
     } 
 }
-class AIPlayer extends Player {
+export class AIPlayer extends Player {
     constructor(name, token, difficulty = "hard") {
         super(name, token, true);
         this.difficulty  = difficulty;
