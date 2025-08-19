@@ -1,6 +1,6 @@
 import logoimg from  "./assets/images/logo.svg"
 import displayPvp from "./pvpdom";
-import {AIPlayer, Game, Player} from "./game";
+import {AIPlayer, AIPlayerHard, Game, Player} from "./game";
 
 const displayMainMenu = () => {
     const container = document.getElementById('container');
@@ -38,6 +38,12 @@ const displayMainMenu = () => {
         const aiPlayer = new AIPlayer("Normal AI", 2)
         const game = new Game(player1, aiPlayer);
         displayPvp(game)
+    })
+    pvcHardDiv.addEventListener('click',()=> {
+        const player1 = new Player("Player 1", 1);
+        const player2 = new AIPlayerHard("Hard AI", 2);
+        const game = new Game(player1, player2);
+        displayPvp(game);
     })
    
     mainMenu.append(logo, pvpDiv, pvcDiv, pvcHardDiv, gameRules);

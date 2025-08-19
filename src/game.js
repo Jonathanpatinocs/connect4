@@ -59,7 +59,129 @@ export class AIPlayerHard extends Player { // "Hard" Difficuly AI Player
         super(name, token, true);
         this.difficulty  = difficulty;
     }
+    chooseMove(game) {
+        const aiToken = this.token;
+        const opponentToken = game.players[0].token === aiToken ? game.players[1].token : game.players[0].token;
+
+        let bestScore = -Infinity;
+        let bestCol = null;
+
+        for (let col = 0; col < 7; col++) {
+            if (this.isValidMove(game.board, col)) {
+                const tempGame = game.clone();
+                tempGame.simDropDiscHard(col, aiToken);
+
+                const score = this.minimax(tempGame, 4, -Infinity, Infinity, false, aiToken, opponentToken); // depth=4
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestCol = col;
+                }
+            }
+        }
+
+        return bestCol;
+    }
+
+    isValidMove(board, col) {
+        return board[0][col] === 0;
+    }
+
+    /* --- Minimax with Alpha-Beta Pruning --- */  // Scores all possible moves and chooses best one
+    minimax(game, depth, alpha, beta, maximizingPlayer, aiToken, opponentToken) {
+        if (depth === 0 || game.gameOver) {
+            return this.evaluateBoard(game.board, aiToken, opponentToken);
+        }
+
+        if (maximizingPlayer) {
+            let maxEval = -Infinity;
+            for (let col = 0; col < 7; col++) {
+                if (this.isValidMove(game.board, col)) {
+                    const tempGame = game.clone();
+                    tempGame.simDropDiscHard(col, aiToken);
+
+                    const evalScore = this.minimax(tempGame, depth - 1, alpha, beta, false, aiToken, opponentToken);
+                    maxEval = Math.max(maxEval, evalScore);
+                    alpha = Math.max(alpha, evalScore);
+                    if (beta <= alpha) break; // prune , Skips pointless search
+                }
+            }
+            return maxEval;
+        } else {
+            let minEval = Infinity;
+            for (let col = 0; col < 7; col++) {
+                if (this.isValidMove(game.board, col)) {
+                    const tempGame = game.clone();
+                    tempGame.simDropDiscHard(col, opponentToken);
+
+                    const evalScore = this.minimax(tempGame, depth - 1, alpha, beta, true, aiToken, opponentToken);
+                    minEval = Math.min(minEval, evalScore);
+                    beta = Math.min(beta, evalScore);
+                    if (beta <= alpha) break; // prune  Skips pointless search
+                }
+            }
+            return minEval;
+        }
+    }
+
+    /* --- Evaluation Function --- */
+    evaluateBoard(board, aiToken, opponentToken) {
+        let score = 0;
+
+        // Center column preference
+        const centerCol = Math.floor(board[0].length / 2);
+        let centerCount = 0;
+        for (let row = 0; row < board.length; row++) {
+            if (board[row][centerCol] === aiToken) centerCount++;
+        }
+        score += centerCount * 3;
+
+        // Count 2s, 3s, and potential wins
+        const windows = this.getAllWindows(board);
+        windows.forEach(window => {
+            const aiCount = window.filter(cell => cell === aiToken).length;
+            const oppCount = window.filter(cell => cell === opponentToken).length;
+            const emptyCount = window.filter(cell => cell === 0).length;
+
+            if (aiCount === 4) score += 1000;
+            else if (aiCount === 3 && emptyCount === 1) score += 50;
+            else if (aiCount === 2 && emptyCount === 2) score += 10;
+
+            if (oppCount === 3 && emptyCount === 1) score -= 80; // block opponent
+        });
+
+        return score;
+    }
+
+    // get all 4 windows
+    getAllWindows(board) {
+        const windows = [];
+        const rows = board.length, cols = board[0].length;
+
+        // Horizontal
+        for (let i = 0; i < rows; i++)
+            for (let j = 0; j < cols - 3; j++)
+                windows.push([board[i][j], board[i][j+1], board[i][j+2], board[i][j+3]]);
+
+        // Vertical
+        for (let i = 0; i < cols; i++)
+            for (let j = 0; j < rows - 3; j++)
+                windows.push([board[i][j], board[i+1][j], board[i+2][j], board[i+3][j]]);
+
+        // Diagonal down-right
+        for (let i = 0; i < rows - 3; i++)
+            for (let j = 0; j < cols - 3; j++)
+                windows.push([board[i][j], board[i+1][j+1], board[i+2][j+2], board[i+3][j+3]]);
+
+        // Diagonal up-right
+        for (let i = 3; i < rows; i++)
+            for (let j = 0; j < cols - 3; j++)
+                windows.push([board[i][j], board[i-1][j+1], board[i-2][j+2], board[i-3][j+3]]);
+
+        return windows;
+    }
 }
+
+
 
 export class Game {
     constructor(player1, player2) {
@@ -76,6 +198,14 @@ export class Game {
         const board = Array.from({length: rows }, ()=> Array(cols).fill(0));
         
         return board;
+    }
+    clone() {
+        const newGame = new Game(...this.players);
+        newGame.board = this.board.map(row => [...row]); // board copy
+        newGame.currentPlayer = this.currentPlayer;
+        newGame.winnerCoordinates = this.winnerCoordinates.map(coord => [...coord]);
+        newGame.gameOver = this.gameOver;
+        return newGame;
     }
 
     dropDisc(col) {
@@ -146,6 +276,15 @@ export class Game {
         }
         return false;
         
+    }
+    simDropDiscHard(col, token) {
+        for (let i = 5; i >= 0; i--) {
+            if (this.board[i][col] === 0) {
+                this.board[i][col] = token;
+                return i; // return row where disc was placed
+            }
+        }
+        return null; // column full
     }
     
     checkWin(row, col, token) { // checks win by looking at the surrounding tokens of the last placed token
@@ -378,8 +517,3 @@ export class Game {
         }
     }
 }
-
-
-
-
-
