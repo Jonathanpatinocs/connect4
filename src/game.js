@@ -158,24 +158,31 @@ export class AIPlayerHard extends Player { // "Hard" Difficuly AI Player
         const rows = board.length, cols = board[0].length;
 
         // Horizontal
-        for (let i = 0; i < rows; i++)
-            for (let j = 0; j < cols - 3; j++)
+        for (let i = 0; i < rows; i++) {
+            for (let j = 0; j < cols - 3; j++) {
                 windows.push([board[i][j], board[i][j+1], board[i][j+2], board[i][j+3]]);
-
+            }
+        }
         // Vertical
-        for (let i = 0; i < cols; i++)
-            for (let j = 0; j < rows - 3; j++)
-                windows.push([board[i][j], board[i+1][j], board[i+2][j], board[i+3][j]]);
+        for (let i = 0; i < cols; i++) {
+            for (let j = 0; j < rows - 3; j++) {
+                windows.push([board[j][i], board[j+1][i], board[j+2][i], board[j+3][i]]);
+            }
+        }
 
         // Diagonal down-right
-        for (let i = 0; i < rows - 3; i++)
-            for (let j = 0; j < cols - 3; j++)
+        for (let i = 0; i < rows - 3; i++) {
+            for (let j = 0; j < cols - 3; j++) {
                 windows.push([board[i][j], board[i+1][j+1], board[i+2][j+2], board[i+3][j+3]]);
+            }
+        }
 
         // Diagonal up-right
-        for (let i = 3; i < rows; i++)
-            for (let j = 0; j < cols - 3; j++)
+        for (let i = 3; i < rows; i++) {
+            for (let j = 0; j < cols - 3; j++) {
                 windows.push([board[i][j], board[i-1][j+1], board[i-2][j+2], board[i-3][j+3]]);
+            }
+        }
 
         return windows;
     }
