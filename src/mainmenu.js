@@ -1,6 +1,7 @@
 import logoimg from  "./assets/images/logo.svg"
 import displayPvp from "./pvpdom";
 import {AIPlayer, AIPlayerHard, Game, Player} from "./game";
+import gameRulesDom from "./gamerules";
 
 const displayMainMenu = () => {
     const container = document.getElementById('container');
@@ -45,7 +46,9 @@ const displayMainMenu = () => {
         const game = new Game(player1, player2);
         displayPvp(game);
     })
-   
+   gameRules.addEventListener('click', ()=> {
+    gameRulesDom();
+   })
     mainMenu.append(logo, pvpDiv, pvcDiv, pvcHardDiv, gameRules);
     mainDiv.append(mainMenu);
     container.append(mainDiv);

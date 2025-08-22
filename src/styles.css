@@ -491,3 +491,32 @@ body {
 #gameRules {
     background-color: var(--white);
 }
+
+/*-------- Game Rules -------------  */
+
+#gameRulesContainer {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#gameRulesDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: solid 2px var(--black);
+    border-bottom-width: 10px;
+    border-radius: 20px;
+    padding: 20px;
+    width: 45%;
+    background-color: var(--white);
+}
+
+#gameRulesDiv div{
+    display: flex;
+    flex-direction: column;
+    
+
+
+}
